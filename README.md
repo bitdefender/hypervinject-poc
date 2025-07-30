@@ -30,7 +30,7 @@ The assembly source code for the kernel-mode loader can be found in `loader\load
 Any user-mode shellcode can be used, but none is provided by default. Add your favorite user-mode shellcode in `shellcode.h`.
 
 
-## Mitigations
+# Mitigations
 
 While HyperVinject requires administrative privileges within the root partition (i.e., full control of the host), the following mitigations can effectively prevent or detect its use:
 
