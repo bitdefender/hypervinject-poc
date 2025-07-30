@@ -23,11 +23,19 @@ The `vminjectdll.dll` DLL creates a log inside `D:\hypervinject\hypervinject.log
 
 ## Kernel shellcode
 
-The assembly source code for the kernel-mode shellcode can be found in `shellcode\shellcode.asm`.
+The assembly source code for the kernel-mode loader can be found in `loader\loader.asm`.
 
 ## User shellcode
 
 Any user-mode shellcode can be used, but none is provided by default. Add your favorite user-mode shellcode in `shellcode.h`.
+
+# Mitigations
+
+Besides requiring admin privileges inside the root partition, HyperVinject can be mitigated in other ways:
+* use shielded VMs (VM Settings -> Security -> Enable Shielding)
+* use memory encryption technologies, if available (Intel TDX, AMD SEV-SNP)
+
+Additionally, an EDR or Anti Malware program running in the root partition will almost certainly mitigate HyperVinject by detecting the initial injection inside `vmwp.exe` process.
 
 # Disclaimer
 This work is intended for educational and research purposes only. The techniques and information described herein are provided to promote awareness and improve security practices. The author does not endorse or condone malicious activity and expressly disclaims any responsibility for misuse of the information, including any activity that violates applicable laws, regulations, or terms of service. Use of the information is at the reader’s own risk and discretion. It is your responsibility to ensure that any actions taken using this information are lawful and ethical in your jurisdiction. It is also worth mentioning from the beginning that this is not a 0-day or an exploit of any kind. Injecting code inside a running Hyper-V VM requires that the attacker already has admin access to the root partition, so no security boundaries are broken, since the HV, and by extension the root partition, already have full control over the child partition.
