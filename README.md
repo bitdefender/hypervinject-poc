@@ -1,6 +1,6 @@
 # HyperVinject
 
-This PoC injects a shellcode inside a user-mode process running in a Hyper-V child partition. The injection is performed from the root partition, and it requires admin privileges. 
+This PoC injects code inside a user-mode process running in a Hyper-V child partition. The injection is performed from the root partition, and it requires admin privileges. 
 
 Note that the root partition already has complete control over the running child partition; as a result, HyperVinject does not break any security boundary.
 
@@ -21,18 +21,23 @@ vminject "Windows 11 24H2" 1280
 
 The `vminjectdll.dll` DLL creates a log inside `D:\hypervinject\hypervinject.log`. This location can be changed by modifying `LOG_FILE` defined in `log.c`.
 
-## Kernel shellcode
+## Kernel loader
 
 The assembly source code for the kernel-mode loader can be found in `loader\loader.asm`.
 
-## User shellcode
+## User loader
 
-Any user-mode shellcode can be used, but none is provided by default. Add your favorite user-mode shellcode in `shellcode.h`.
+Any user-mode code can be used, but none is provided by default. Add your favorite user-mode loader in `shellcode.h`.
 
+# Use-Cases
+
+Just like traditional process injection techniques, which are commonly used by EDRs and other security solutions for legitimate purposes, HyperVinject also has many valid, benign use cases. For example, it can be used to deploy monitoring tools inside a running VM, automate tasks, perform controlled testing, or assist with security research.
+
+However, such activities should only be performed in a properly controlled testing environment and with explicit authorization, as improper use may cause instability, crashes, or data corruption within the target guest virtual machine.
 
 # Mitigations
 
-While HyperVinject requires administrative privileges within the root partition (i.e., full control of the host), the following mitigations can effectively prevent or detect its use:
+HyperVinject requires administrative privileges in the root partition (i.e., full control of the host). However, the following mitigations can help prevent or detect the malicious use of such injection techniques:
 
 - **Enable Shielded VMs** (VM Settings → Security → Enable Shielding). When running a Shielded VM, the associated `vmwp.exe` process runs as a **Protected Process Light (PPL)**. This protection prevents unauthorized user-mode access, including memory injections, even from other administrative processes on the host.
 - **Use memory encryption technologies**. Technologies such as **Intel TDX** or **AMD SEV-SNP** encrypt guest memory, making it inaccessible to the hypervisor or host, effectively preventing this type of injection.
@@ -43,3 +48,4 @@ This work is intended for educational and research purposes only. The techniques
 
 # License
 This project is licensed under the [BSD 3-Clause License](./LICENSE).
+
