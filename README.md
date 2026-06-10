@@ -43,6 +43,9 @@ HyperVinject requires administrative privileges in the root partition (i.e., ful
 - **Use memory encryption technologies**. Technologies such as **Intel TDX** or **AMD SEV-SNP** encrypt guest memory, making it inaccessible to the hypervisor or host, effectively preventing this type of injection.
 - **Deploy EDR or anti-malware solutions in the root partition**. Since the injection begins in the `vmwp.exe` process on the host, well-instrumented security solutions running in the root partition are likely to detect or block the initial step of HyperVinject.
 
+# Responsible Disclosure
+Microsoft was informed of this research on July 11, 2024, and confirmed on July 17, 2024, that the techniques and tools described do not bypass any security boundary and do not meet the current MSRC bar for immediate servicing.
+
 # Disclaimer
 This work is intended for educational and research purposes only. The techniques and information described herein are provided to promote awareness and improve security practices. The author does not endorse or condone malicious activity and expressly disclaims any responsibility for misuse of the information, including any activity that violates applicable laws, regulations, or terms of service. Use of the information is at the reader’s own risk and discretion. It is your responsibility to ensure that any actions taken using this information are lawful and ethical in your jurisdiction. It is also worth mentioning from the beginning that this is not a 0-day or an exploit of any kind. Injecting code inside a running Hyper-V VM requires that the attacker already has admin access to the root partition, so no security boundaries are broken, since the HV, and by extension the root partition, already have full control over the child partition.
 
